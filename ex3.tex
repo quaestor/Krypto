@@ -105,10 +105,9 @@ Vektoren weiterhin gleiche Länge haben.
 			$n^2\mod 7$&0&1&4&2&2&4&1
 		\end{tabular}
 
-		so erkennt man, dass mit $a^2 + b^2 \equiv 0\mod7,\ a,b \in
-		\mathbb{Z}$ folgt, dass $a^2 \equiv b^2 \equiv 0\mod 7$ und
-		damit auch $a \equiv b \equiv 0\mod7$. Somit gilt die
-		Behauptung.
+		so erkennt man, dass mit $a^2 + b^2 \equiv 0\mod7,\ a,b \in \Z$
+		folgt, dass $a^2 \equiv b^2 \equiv 0\mod 7$ und damit auch $a
+		\equiv b \equiv 0\mod7$. Somit gilt die Behauptung.
 	\item
 		Da die Gleichung
 		$x_1^2+y_1^2=x_2^2+y_2^2=(x_1-x_2)^2+(y_1-y_2)^2$ gilt, ist
@@ -133,10 +132,10 @@ Vektoren weiterhin gleiche Länge haben.
 
 	\item
 		Die $6$ Gitterpunkte müssen auf einem Kreis liegen und aus
-		$\mathbb{Z}^2$ sein. Da das Gitter in $\mathbb{R}^2$ liegt
-		bilden zwei davon zusammen eine Gitterbasis. Die Basis mit
-		$(-1)$ multipliziert ergibt zwei weitere Gitterpunkte, die auf
-		diesem Kreis liegen.
+		$\Z^2$ sein. Da das Gitter in $\mathbb{R}^2$ liegt bilden zwei
+		davon zusammen eine Gitterbasis. Die Basis mit $(-1)$
+		multipliziert ergibt zwei weitere Gitterpunkte, die auf diesem
+		Kreis liegen.
 
 		\begin{center}
 		\begin{tikzpicture}
@@ -162,7 +161,7 @@ Vektoren weiterhin gleiche Länge haben.
 		Gittervektoren $|x|^2 = |y|^2 = |x-y|^2$; dies ist genau die
 		Gleichung aus (2). Da nur die triviale Lösung diese erfüllt
 		existieren keine Gitter mit $6$ kürzesten Gittervektoren in
-		$\mathbb{Z}^2$.
+		$\Z^2$.
 \end{enumerate}
 
 \section*{Aufgabe 15}
@@ -179,13 +178,12 @@ M_\Lambda = \begin{bmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{bmatrix} =
 	\end{bmatrix}
 \]
 Die Zeilensummen sind offensichtlich kongruent $0$ modulo $4$, die Einträge
-kongruent modulo $2$. Damit erfüllen auch alle $\mathbb{Z}$-Linearkombiantionen
-diese Bedingungen. In der anderen Richtung lässt sich jeder Vektor
-$(x_1,\dots,x_n)$ mit den genannten Eigenschaften als
-$\mathbb{Z}$-Linearkombination der gegebenen Matrix darstellen wie folgt (dabei
-sind alle Einträge $x_i \equiv 0\mod2$, da andernfalls die erste Bedingung
-verletzt wäre, denn eine Summe von $n \not\equiv 0\mod4$ ungeraden Summanden
-ist nie durch $4$ teilbar):
+kongruent modulo $2$. Damit erfüllen auch alle $\Z$-Linearkombiantionen diese
+Bedingungen. In der anderen Richtung lässt sich jeder Vektor $(x_1,\dots,x_n)$
+mit den genannten Eigenschaften als $\Z$-Linearkombination der gegebenen Matrix
+darstellen wie folgt (dabei sind alle Einträge $x_i \equiv 0\mod2$, da
+andernfalls die erste Bedingung verletzt wäre, denn eine Summe von $n
+\not\equiv 0\mod4$ ungeraden Summanden ist nie durch $4$ teilbar):
 \[ x = \frac{x_1}{2} a_1 + \frac{x_2-x_1}{2} a_2 + \cdots +
 \frac{x_{n-1}-x_{n-2}+x_{n-3}-\cdots}{2} a_{n-1} +
 \frac{x_n-x_{n-1}+x_{n-2}-\cdots}{4} a_n = (x_1, \dots x_n) \]
