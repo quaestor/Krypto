@@ -1,0 +1,186 @@
+\chead{Blatt 4}
+\section*{Aufgabe 16}
+Hinweis: \verb/VIGENERECHIFFRE/
+
+Da es sich um einen Brief handelt, lag nahe, dass der Text mit 
+\verb/LIEBE BIRGIT/ beginnt; daraus ließ sich der Schlüssel \verb/HERBST/ für
+die Vigenerechiffrierung ableiten.
+
+Entschlüsselter Text:
+\begin{verbatim}
+LIEBE BIRGIT,
+ES WAR SCHOEN, DASS WIR UNS IN DEN HERBSTFERIEN MAL WIEDER GETROFFEN
+HABEN. ICH HOFFE, DU KANNST MEINE VIGENERE-CHIFFRIERTE NACHRICHT 
+ENTSCHLUESSELN. UNSER LETZTES VERSCHLUESSELUNGSVERFAHREN MIT DER
+MATRIZENMULTIPLIKATION WAR MIR ZU RECHENAUFWAENDIG. 
+VIELE GRUESSE SENDET DIR DEINE FREUNDIN PIA
+\end{verbatim}
+
+\section*{Aufgabe 17}
+\lstset{language=Mathematica}
+\begin{lstlisting}
+gedicht = 
+  "CQY JNLG FUN CYZGFR ZUO FXYL EHJ MRDQBV.
+  GYY IMKOFQ YKUUVSVZTEHO MJFR.
+  FWV SBEKPEHW CVGHMRK NTTGKRZVMD,
+  FG NACEI BTKVKQ BYOLIJNISP.
+
+  TIZ FDMQ ZLUXSBQ QD FTXBFVCUEIT.
+  KA MFU EKBXB XKPHMQ UDXA WCEGQO.
+  DAC EKU CPA EID,SMJC FLADKQ YUKSW.
+  COF, JGQ XBK KLT, RGE VYQXKQ.
+
+  YFWBKG RSV ZUFDWZYH `LMWOZS TFV QCJ VKVTHU OWYEK' XZT SPEZY NFLGMPTH.";
+
+(* erzeuge die Liste der x_i mit kleinsten
+   Loesungen der diophantischen Gl. *)
+xi = {};
+For[i = 1000, i > 0, i++,
+  If[Not[PrimeQ[i]], Continue[]];
+  test = Reduce[{x^2 + y^2 == i && x > 0 && y > 0 && x <= y},
+                {x, y}, Integers];
+  If[test == False, Continue[]];
+  xi = Append[xi, x /. ToRules[First[test]]];
+  If[Length[xi] == 265, Break[]];
+]
+
+(* Entschluesselung *)
+ret = "";
+k = 1;
+For[i = 1, i <= StringLength[gedicht], i++,
+  a = StringTake[gedicht, {i}];
+  If[a == " " || a == "." || a == "`" || a == "'" || a == ",", 
+    (* Sonderzeichen sind nicht verschluesselt *)
+    ret = ret <> a,
+    (* else: *)
+    {
+      z = FromCharacterCode[
+            Mod[((ToCharacterCode[a][[1]] - 65) - xi[[k]]), 26] + 65
+          ];
+      ret = ret <> z;
+      k++;
+    }
+  ];
+]
+
+(* Ausgabe des entschluesselten Textes *)
+ret
+
+  "NUN GIBT DER HERBST DEM WIND DIE SPOREN.
+  DIE BUNTEN LAUBGARDINEN WEHN.
+  DIE STRASSEN AEHNELN KORRIDOREN,
+  IN DENEN TUEREN OFFENSTEHN.
+
+  DAS JAHR VERGEHT IN MONATSRATEN.
+  ES IST SCHON WIEDER FAST VORBEI.
+  UND WAS MAN TUT, SIND SELTEN TATEN.
+  DAS,WAS MAN TUT, IST TUEREI.
+
+  ANFANG DES GEDICHTS `HERBST AUF DER GANZEN LINIE' VON ERICH KAESTNER."
+\end{lstlisting}
+
+\section*{Aufgabe 18}
+\begin{lstlisting}
+(* (1) *)
+p = 19^29 + 3030;
+ii = i/.ToRules[First[
+       Reduce[Mod[i^2,p] == Mod[-1,p] && i < p && i >= 0, i, Integers]
+     ]]
+
+  5422740134092326071960207930297296114
+
+(* (2) *)
+LatticeReduce[{{ii, 1}, {p, 0}}]
+
+  {{3384068435690137203, -823348539292400500},
+   {-823348539292400500, -3384068435690137203}}
+
+(* (3) *)
+a = Reduce[x^2 + y^2 == p, {x, y}, Integers];
+Table[{x, y} /. ToRules[a[[i]]], {i, 1, Length[a]}] // TableForm
+
+  -3384068435690137203   -823348539292400500
+  -3384068435690137203    823348539292400500
+   -823348539292400500  -3384068435690137203
+   -823348539292400500   3384068435690137203
+    823348539292400500  -3384068435690137203
+    823348539292400500   3384068435690137203
+   3384068435690137203   -823348539292400500
+   3384068435690137203    823348539292400500
+\end{lstlisting}
+
+\newpage
+\section*{Aufgabe 19}
+Für $p=2$ erhalten wir als mögliche Basisvektoren $(1, 1)$ und $(2, 0)$. Die
+Gitterdeterminante ist gleich $2$.
+
+Sei $p \equiv 3\mod 4$. Dann ist $\Lambda_p$ kein Gitter, da für die
+diophantische Gleichung keine Lösung existiert, denn Quadrate modulo $4$ sind
+entweder äquivalent $0$ oder $1$, insbesondere niemals äquivalent $3$ modulo
+$4$.
+
+Im Fall $p \equiv 1\mod 4$ gilt nach Skript, dass $\Lambda_p =
+\mathbb{Z}(i,1)+\mathbb{Z}(p,0)$ ein Gitter mit Determinante $p$ ist mit einem
+$i^2 \equiv -1\mod p$.
+
+\section*{Aufgabe 20}
+\begin{enumerate}[(1)]
+	\item \[ \left\vert \frac{u_i}{u_{i-1}} \right\vert = \left\vert
+	\frac{u_{i-2}}{u_{i-1}} - \left\lfloor \frac{u_{i-2}}{u_{i-1}}
+	\right\rceil \cdot \frac{u_{i-1}}{u_{i-1}} \right\vert \leq \frac{1}{2}\]
+	
+	\item Nach (1) gilt: \[ \vert u_i \vert \leq \frac{1}{2} \vert u_{i-1}
+	\vert \leq \dots \leq \frac{1}{2^{i-1}} \vert u_1 \vert \]
+	was sich induktiv zeigen lässt.
+	
+	\item Für $i = 1$ ist nichts zu zeigen. Nach Definition gilt
+	\[ u_{i+1} = u_{i-1} - k\cdot u_i,\quad k = \left\lfloor
+	\frac{u_{i-1}}{u_i} \right\rceil \in \Z \]
+	und damit gilt mit folgendem Induktionsschritt die Behauptung für alle
+	$i \geq 1$:
+	\[ \Z u_{i+1} = \Z u_{i-1} - \Z k\cdot u_i = \Z u_{i-1} - \Z u_i + \Z u_i \]
+	\[ \Leftrightarrow \Z u_i + \Z u_{i+1} = \Z u_{i-1} + \Z u_i \]
+	
+	\item folgt aus (3) mit $i = l$.
+	
+	\item Mit $u_0, u_1 \in \Z$ ist $\Z u_0 + \Z u_1$ ein Gitter in $\Z$.
+	Da die Folge $\{|u_i|\}$ monoton fallend ist (2), insbesondere streng
+	monoton fallend, solange die $u_i \neq 0$ sind, und alle $u_i$ in dem
+	Gitter enthalten sind (3), muss es ein $l \in \mathbb{N}$ geben, ab dem
+	alle $u_i = 0$ für $i \geq l$, da es sonst beliebig kleine Gittervektoren
+	gäbe. Wegen (4) muss weiterhin gelten, dass $\text{ggT}(u_0, u_1) =
+	|u_{l-1}|$ gilt, da $u_{l-1}$ zum einen ein Teiler von $u_0$ und $u_1$
+	sein muss, weil sowohl $\Z u_1 \subset  \Z u_{l-1}$ als auch $\Z u_0
+	\subset \Z u_{l-1}$ und zum anderen nur Vielfache des ggT durch
+	ganzzahlige Linearkombinationen dargestellt werden können. 
+
+	\item Hier gilt ebenfalls wegen (2), dass die Folge der $\{|u_i|\}$
+	streng monoton fallend ist, solange $u_i \neq 0$ erfüllt ist; da jedoch
+	$\Z u_0 + \Z u_1$ ein Gitter ist, und es einen kürzesten Gittervektor
+	gibt und die $u_i$ in dem Gitter enthalten sind, dass ab einem $l \in
+	\mathbb{N}$ alle $u_i = 0$ für $i \geq l$.
+
+	\item Nach Aufgabe 2 ist $\Z u_0 + \Z u_1$ in diesem Fall kein Gitter.
+	Insbesondere gibt es deshalb kein $u_{l-1}$, sodass $\Z u_0 + \Z u_1 =
+	\Z u_{l-1}$ gilt; also kann kein $u_i = 0$ existieren, da sonst
+	ebendiese Gleichung erfüllt wegen (4) wäre. Wegen (3) gilt $\Z u_0 + \Z u_1 = \Z
+	u_{i-1} + \Z u_i $, somit ist $\Z u_i \in \Z u_0 + \Z u_1 = \Z + \Z
+	\alpha$ und wegen (2) folgt $\lim_{i \rightarrow \infty} u_i = 0$, da
+	alle $u_i \neq 0$.
+
+	\item Bei der Gauß-Reduktion wird folgender Schritt durchgeführt:
+	\[ b^* = b - \left\lfloor \frac{a \cdot b}{a \cdot a} \right\rceil \cdot a \]
+	Mit $a = (u_{i-1}, 0)$ und $b = (u_{i-2}, 0)$ erhält man:
+	\[ b^* = (u_i,0) = (u_{i-2},0) - \left\lfloor \frac{u_{i-1} \cdot
+	u_{i-2}}{u_{i-1} \cdot u_{i-1} } \right\rceil \cdot (u_{i-1}, 0)
+	(u_{i-2},0) - \left\lfloor \frac{u_{i-2}}{u_{i-1}} \right\rceil \cdot
+	(u_{i-1}, 0)\]
+	Im Allgemeinen gilt wegen (2), dass $u_i < u_{i-1}$ also auch $\|a\| <
+	\|b\|$, somit müssen $a$ und $b$ nie vertauscht werden. Lediglich für
+	den Fall $u_0 < u_1$ entspricht der Konstruktionsprozess nicht der
+	Gauß-Reduktion. Ist dabei $\frac{u_0}{u_1} < \frac{1}{2}$, so ist $u_2
+	= u_0$ und die Folge $(u_i, 0)$ entspricht ab $i = 1$ der
+	Gauß-Reduktion. Ist dagegen $\frac{u_1}{u_0} < \frac{1}{2}$, dann ist
+	$u_2 = u_0 - u_1$, während bei der Gauß-Reduktion $u_2 = u_1 - u_0$
+	wäre. Dieses Vorzeichen ist der einzige Unterschied zum anderen Fall.
+\end{enumerate}

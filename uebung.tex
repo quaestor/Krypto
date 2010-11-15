@@ -1,0 +1,57 @@
+\documentclass[a4paper]{article}
+\pagestyle{empty}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{a4wide}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true,linkcolor=black,a4paper=true]{hyperref}
+\usepackage{amsmath, amsthm, amssymb}
+
+\title{Kryptographie und Gitter\\
+       Wintersemester 2011 \\
+       \small Lösungen zu den Übungsaufgaben}
+\author{Ulrich Dorsch\\Christoph Rauch\\ FAU Erlangen-Nürnberg}
+\lhead{Übung zur Vorlesung\\ Kryptographie und Gitter}
+\rhead{Ulrich Dorsch, Inf. M. Sc., 21325920\\Christoph Rauch, Inf. M. Sc., 21325652}
+
+\makeatletter
+% Different format for headings
+\def\section{\@startsection{section}{1}%
+  \z@{1.7\baselineskip\@plus\baselineskip}{.5\baselineskip}%
+  {\large\scshape\centering}}
+% This does spacing around caption.
+\setlength{\abovecaptionskip}{0.5em}
+\setlength{\belowcaptionskip}{0.5em}
+% This does justification (left) of caption.
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{#2}%
+  \ifdim \wd\@tempboxa >\hsize
+    #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\box\@tempboxa\hfill}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother
+
+\newcommand{\hk}{\mathcal{H}_{k}}
+\newcommand{\hkp}{\mathcal{H}_{k+1}}
+\newcommand{\im}{\textit{i}}
+\newcommand{\mat}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\bra}[1]{\langle #1 |}
+\newcommand{\ket}[1]{| #1 \rangle}
+\newcommand{\bk}[1]{\langle #1 \rangle}
+\newcommand{\Z}{\mathbb{Z}}
+
+\begin{document}
+\pagestyle{fancy}
+%\maketitle
+%\tableofcontents
+%\include{ex2}
+%\include{ex3}
+\include{ex4}
+\end{document}

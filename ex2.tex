@@ -1,0 +1,176 @@
+\chead{Blatt 2}
+\section*{Aufgabe 6}
+Durch Analyse der Buchstabenhäufigkeit kann man eine monoalphabetische
+Substitutionschiffrierung erkennen. Als Schlüsselwort ergibt sich
+\verb/KAESTNER/.
+
+Der Lösungstext lautet:
+\begin{verbatim}
+EBEN BIN ICH AUS SALZBURG ZURUECKGEKOMMEN; NUN HOCK' ICH, MITTERNACHT IST
+VORBEI, IN DER HOTELBAR UND TRINKE DAS VIELGELIEBTE `CHARLOTTENBURGER PILSNER',
+WIE DIE FREUNDE DIE HERZHAFTE MISCHUNG AUS SEKT UND BIER GETAUFT HABEN. VOR
+SECHS JAHREN WAR ICH ZUM LETZTENMAL IN SALZBURG. DOCH ALS KARL UND ICH HEUTE
+MITTAG IM GARTEN DES STIEGLBRAEUS, HINTEN IN DER `WELT', SASSEN UND AUF DIE
+STADT DER STREITBAREN UND KUNSTSINNIGEN ERZBISCHOEFE HINABSCHAUTEN, WAR ICH VON
+NEUEM UEBERWAELTIGT. AUCH ANMUT KANN ERSCHUETTERN.
+\end{verbatim}
+
+\section*{Aufgabe 7}
+Die Lösungsmatrix, die den Cyphertext in Klartext transformiert lautet:
+\[ \renewcommand{\arraystretch}{1.4}
+M^{-1} = 
+\begin{bmatrix}
+		-\frac{1}{6}& \frac{139}{48}& -\frac{11}{8}\\
+		0& -\frac{19}{8}& \frac{5}{4}\\
+		\frac{1}{6}& -\frac{43}{48}& \frac{3}{8}
+\end{bmatrix} \]
+Die Matrix erhält man durch Lösen des linearen Gleichungssystems
+\[ M^{-1} \cdot A = B \]
+wobei $A$ die $3\times 3$-Matrix aus den ersten $3$ Codevektoren ist und $B$
+die korrespondierende $3\times 3$-Matrix, die man aus dem Hinweistext gewinnen
+kann (\verb/TEXTBEGINN LIEBE PIA/, Caesar-Chiffre).
+\begin{verbatim}
+LIEBE PIA DAS SELTSAME AM SOMMER IST DASS ER SO SCHNELL VERGEHT LAS ICH GESTERN
+IN EINEM BUCH VON ASTRID LINDGREN AUCH MEINE FERIEN SIND IRGENDWIE SCHNELL
+VERGANGEN HAST DU LUST DASS WIR UNS IN DEN HERBSTFERIEN MAL SEHEN VIELE GRUESSE
+DEINE FREUNDIN BIRGIT
+\end{verbatim}
+
+\section*{Aufgabe 8}
+Für die Aufgabe müssen Gleichungssysteme gelöst werden (Lemma aus Skript
+Kapitel 1, 2. Wechsel der Gitterbasis). Dies übernimmt für uns Mathematica
+(Output ist eingerückt):
+\lstset{language=Mathematica}
+\begin{lstlisting}
+(* Matrizen der Gitterbasen *)
+L1 = {{27, 23, 8}, {49, 41, 10}, {5, 5, 2}};
+L2 = {{4, -54, -16}, {13, -1, 8}, {3, 9, 5}};
+L3 = {{2, -6, -1}, {12, 10, 11}, {7, -3, 3}};
+L4 = {{1, 49, 10}, {11, 19, 10}, {6, 54, 12}};
+
+(* Matrix der Unbekannten *)
+X = Table[x[i, j], {i, 1, 3}, {j, 1, 3}];
+
+(* Alle moeglichen Inklusionen, FindInstance loest das 
+   LGS fuer ganzzahlige Matrixeintraege *)
+{
+(M12 = FindInstance[{X.L1 == L2}, Flatten[X], Integers]) != {},
+(M13 = FindInstance[{X.L1 == L3}, Flatten[X], Integers]) != {},
+(M14 = FindInstance[{X.L1 == L4}, Flatten[X], Integers]) != {},
+(M21 = FindInstance[{X.L2 == L1}, Flatten[X], Integers]) != {},
+(M23 = FindInstance[{X.L2 == L3}, Flatten[X], Integers]) != {},
+(M24 = FindInstance[{X.L2 == L4}, Flatten[X], Integers]) != {},
+(M31 = FindInstance[{X.L3 == L1}, Flatten[X], Integers]) != {},
+(M32 = FindInstance[{X.L3 == L2}, Flatten[X], Integers]) != {},
+(M34 = FindInstance[{X.L3 == L4}, Flatten[X], Integers]) != {},
+(M41 = FindInstance[{X.L4 == L1}, Flatten[X], Integers]) != {},
+(M42 = FindInstance[{X.L4 == L2}, Flatten[X], Integers]) != {},
+(M43 = FindInstance[{X.L4 == L3}, Flatten[X], Integers]) != {}
+}
+
+	{False, False, True, False, True, False, False, 
+	 True, False, False, False, False}
+
+(X /. M14)[[1]]
+(X /. M23)[[1]]
+
+	{{-24, 6, 71}, {-2, 0, 13}, {-24, 6, 72}}
+	{{2, -3, 11}, {1, -1, 7}, {4, -6, 23}}
+\end{lstlisting}
+Es existieren also nur die Relationen $\Lambda_4 \subset \Lambda_1$ sowie
+$\Lambda_2 = \Lambda_3$ mit den Transformationsmatrizen
+\[ M_{1,4} = \begin{bmatrix}-24&6&71\\-2&0&13\\-24&6&72\end{bmatrix},\quad\quad
+M_{2,3} = \begin{bmatrix}2&-3&11\\1&-1&7\\4&-6&23\end{bmatrix} \]
+
+\section*{Aufgabe 9}
+\begin{lstlisting}
+(* Gitterbasis *)
+b1 = {90, -24, -52};
+b2 = {41, 58, 82};
+b3 = {21, 29, -97};
+
+(* Quadrat der Norm || x b1 + y b2 + z b3 || *)
+f[x_, y_, z_] := Expand[Plus @@ Map[#^2 &, x*b1 + y*b2 + z*b3]]
+
+c =
+Sqrt[Min[
+   Minimize[{f[x, y, 1], -1 <= y <= 1, -1 <= x <= 1}, {x, y}][[1]], 
+   Minimize[{f[x, 1, z], -1 <= x <= 1, -1 <= z <= 1}, {x, z}][[1]], 
+   Minimize[{f[1, y, z], -1 <= y <= 1, -1 <= z <= 1}, {y, z}][[1]]
+]]
+
+	213907/Sqrt[8129129]
+\end{lstlisting}
+
+Wir erhalten also einen Wert von $\frac{213907}{\sqrt{8129129}} \approx 75$ für $c$.
+
+\begin{lstlisting}
+
+q = Floor[100/c];
+Select[
+  Flatten[
+    (* Tabelle der Funktionswerte und zugehoeriger Argumente *)
+    Table[{f[x, y, z], {x, y, z}}, {x, -q, q}, {y, -q, q}, {z, -q, q}],
+    2],
+  (* filtere die gewuenschten Ergebnisse *)
+  #[[1]] <= 100^2 & 
+]
+
+	{{9595, {-1, 0, 1}}, {0, {0, 0, 0}}, {9595, {1, 0, -1}}}
+\end{lstlisting}
+Also gibt es in dem Gitter, das von $b_1, b_2, b_3$ generiert wird, genau drei
+Vektoren $a$ mit $\|a\| \leq 100$, und zwar den Nullvektor, $b_3 - b_1$ und
+$b_1 - b_3$.\\[0.8em]
+
+\section*{Aufgabe 10}
+Wir wählen die Vektoren $a_1 = (1, 1, 0, \dots, 0)$, $a_2 = (0, 1, 1, 0, \dots,
+0)$, $\dots$, $a_{n-1} = (0, \dots, 0, 1, 1)$, $a_n = (0, \dots, 0, 0, 2)$.
+Dies sind $n$ linear unabhängige Vektoren. Da für jeden Vektor $(x_1, \dots,
+x_n)$ mit $x_1 + \cdots + x_n \equiv 0\mod 2$ die Darstellung $x_1 a_1 + (x_2 -
+x_1) a_2 + \cdots + (x_{n-1} - x_{n-2}) a_{n-1} + (x_n - x_{n-1}) \frac{1}{2}
+a_n$ existiert und die Koeffizientensummen dieser Vektoren je kongruent $0$
+modulo $2$ sind und damit jede $\mathbb{Z}$-Linearkombination der $a_i$
+ebenfalls einen Vektor bildet, dessen Koeffizientensumme durch $2$ teilbar ist,
+ist $\Lambda = \mathbb{Z} a_1 + \cdots + \mathbb{Z} a_n$ ein Gitter. Das
+Quadrat der Gitterdeterminante ist
+\begin{eqnarray*}
+\begin{vmatrix}
+	2 & 1 & 0 & \cdots & \cdots & \cdots & 0 \\
+	1 & 2 & 1 & \ddots &  &  & \vdots \\
+	0 & \ddots & \ddots & \ddots & \ddots &  & \vdots \\
+	\vdots & \ddots & \ddots & \ddots & \ddots & \ddots & \vdots \\
+	\vdots & & \ddots & 1 & 2 & 1 & 0 \\
+	\vdots & & & \ddots & 1 & 2 & 2 \\[0.8em] %wtf...
+	0 & \cdots & \cdots & \cdots & 0 & 2 & 4
+   \end{vmatrix} &=& 
+ 2 \cdot \begin{vmatrix}
+	2 & 1 & 0 & \cdots & \cdots & \cdots & 0 \\
+	1 & 2 & 1 & \ddots &  &  & \vdots \\
+	0 & \ddots & \ddots & \ddots & \ddots &  & \vdots \\
+	\vdots & \ddots & \ddots & \ddots & \ddots & \ddots & \vdots \\
+	\vdots & & \ddots & 1 & 2 & 1 & 0 \\
+	\vdots & & & \ddots & 1 & 2 & 2 \\[0.8em] %wtf...
+	0 & \cdots & \cdots & \cdots & 0 & 1 & 2
+   \end{vmatrix} = \\
+ 4 \cdot \begin{vmatrix}
+	2 & 1 & 0 & \cdots & \cdots & \cdots & 0 \\
+	1 & 2 & 1 & \ddots &  &  & \vdots \\
+	0 & \ddots & \ddots & \ddots & \ddots &  & \vdots \\
+	\vdots & \ddots & \ddots & \ddots & \ddots & \ddots & \vdots \\
+	\vdots & & \ddots & 1 & 2 & 1 & 0 \\
+	\vdots & & & \ddots & 1 & 2 & 1 \\[0.8em] %wtf...
+	0 & \cdots & \cdots & \cdots & 0 & 1 & 1
+   \end{vmatrix} &=& 4 \cdot
+ \begin{vmatrix}
+	2 & 1 & 0 & \cdots & \cdots & \cdots & 0 \\
+	1 & 2 & 1 & \ddots &  &  & \vdots \\
+	0 & \ddots & \ddots & \ddots & \ddots &  & \vdots \\
+	\vdots & \ddots & \ddots & \ddots & \ddots & \ddots & \vdots \\
+	\vdots & & \ddots & 1 & 1 & 0 & 0 \\
+	\vdots & & & \ddots & 1 & 1 & 0 \\[0.8em] %wtf...
+	0 & \cdots & \cdots & \cdots & 0 & 1 & 1
+   \end{vmatrix} = \dots = 4
+\end{eqnarray*}
+Durch Zeilen- und Spaltenumformungen erhält man wie im letzten Schritt in der
+unteren Ecke der Matrix zu sehen eine untere Dreiecksmatrix mit Determinante
+gleich $1$. Somit ist die Gitterdeterminante gleich $2$.
