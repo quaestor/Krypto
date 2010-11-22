@@ -131,10 +131,45 @@ GaussReduktion[a1, bx]
 	1})$ sind linear unabhängig mit ganzzahligen Einträgen, wie man leicht
 	nachprüfen kann; somit ist $\Lambda_i$ ein Gitter vom Rang $2$. Zwei
 	Gitter $\Lambda_1$ und $\Lambda_2$ sind identisch, wenn es eine Matrix
-	$M \in GL_m$ gibt mit $M_{\Lambda_1} = M \cdot M_{\Lambda_2}$, wobei
+	$M \in GL_m(\Z)$ gibt mit $M_{\Lambda_1} = M \cdot M_{\Lambda_2}$, wobei
 	$M_{\Lambda_k}$ die Matrix bestehend aus der jeweiligen Gitterbasis
 	darstellt.
 	\item 
-	\item
-	\item
+	\item Zum Decodieren einer solchen Verschlüsselung muss man lediglich
+	je vier Zahlen zusammenfassen und als zwei Gittervektoren auffassen;
+	auf diese wendet man die Gauß-Reduktion an. Man wählt von den
+	resultierenden zwei Vektoren den aus, dessen beide Komponenten das
+	gleiche Vorzeichen haben, da die resultierenden Vektoren nur bis auf
+	das Vorzeichen eindeutig sind; da die Reihenfolge $(a_{2i-1}, a_{2i})$
+	gewünscht ist, dies ist die erste Zeile der Matrix $A_i$ (mit gleichen
+	Vorzeichen, während die zweite Zeile verschiedene Vorzeichen hat).
+	Ein in Mathematica implementierter Algorithmus sieht beispielsweise so aus:
+\begin{lstlisting}
+(* Hilfsfunktion um je 4 Zahlen zu 2 Vektor zusammenzufassen *)
+f[x_] := Module[{}, Partition[x, 2]];
+(* Auswahl der richtign Reihenfolge (gleiches Vorzeichen) *)
+g[x_] := Module[{a = x[[1]], b = x[[2]]}, 
+           If[Sign[a[[1]]] == Sign[a[[2]]], Abs[a], Abs[b]]
+         ];
+(* Zahlen in ASCII-Code umwandeln *)
+plain = FromCharacterCode[64 +
+            Flatten[
+                Map[g, 
+                    (* Gauss-Reduktion *)
+                    Map[LatticeReduce, 
+                        Map[f,
+                            (* je vier Zahlen zusammenfassen *)
+                            Partition[cipher, 4]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+\end{lstlisting}
+	In der Variablen \verb/cipher/ steht die Verschlüsselte Nachricht.
+	\item Mit obigen Algorithmus erhält man:
+
+	\verb/ICHSAHEINGROSSESHERBSTBLATTDASDERWINDDIESTRASSELANGTRIEBUNDICHDACHTES/
+
+	\verb/CHWIERIGDENKUENFTIGENWEGDESBLATTESAUSZURECHNENX/
 \end{enumerate}
