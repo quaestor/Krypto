@@ -88,4 +88,47 @@ p = GCD[NN, x1 y2 + y1 x2]
 	\[ (1-z)(z^2+z+1) \equiv 1-z^3 \equiv 0\mod 3\]
 	Daraus folgt die Behauptung, da $\Z_p$ ein Körper ist (und damit keine
 	Nullteiler existieren).
+
+	\item Mit $w \equiv 2 z + 1 \bmod p$ und $k ( z^2 + z + 1) \equiv 0 \bmod p$ erhält man
+	\[ w^2 \equiv 4 z^2 + 4 z + 1 \equiv 4 (z^2 + z + 1) - 3 \equiv -3 \mod p\]
+
+	\item Mit 
+	\begin{lstlisting}
+p = 29^31 + 80;
+w = w/.ToRules[Reduce[Mod[w^2, p] == p - 3 && 0 <= w <= p, w, Integers]]
+  {259680314704997257972162448645375431635114923,
+   1899743740103581306194335079943409130737482586}
+	\end{lstlisting}
+	erhält man Zahlen, die die gewünschte Eigenschaft $w^2 \equiv -3 \bmod
+	p$ erfüllen.
+	Durch Gauß-Reduktion wird ein Vektor $a = (u, v \sqrt{3})$ bestimmt:
+\begin{lstlisting}
+GaussReduktion[aa_, bb_] := 
+  Module[{a = aa, b = bb}, 
+    If[b.b < a.a, {a, b} = {b, a}];
+    While[True,
+      If[a.a == 0, Break[]];
+      b = b - Round[a.b/a.a]*a;
+      If[b.b >= a.a, Break[], {b, a} = {a, b}];
+    ];
+    {a, b}
+  ]
+  a1 = {w[[1]], Sqrt[3]};
+  bx = {p, 0};
+GaussReduktion[a1, bx]
+  {{42007181439066575679179, -11472005961672078620034 Sqrt[3]}, 
+   {-34416017885016235860102, -42007181439066575679179 Sqrt[3]}}
+\end{lstlisting}
+	Damit hat man Zahlen $u = 42007181439066575679179, v =
+	-11472005961672078620034$, die die Gleichung $u^2 + d v^2 = p$
+	erfüllen. Die Lösungsmenge der diophantischen Gleichung sind alle
+	Kombinationen von $(x,y) = (\pm u, \pm v)$.
+\end{enumerate}
+
+\section*{Aufgabe 25}
+\begin{enumerate}[(1)]
+	\item 
+	\item 
+	\item
+	\item
 \end{enumerate}
