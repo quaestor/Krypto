@@ -1,0 +1,91 @@
+\chead{Blatt 5}
+\section*{Aufgabe 21}
+Hinweis: \verb/TEXTANFANGLIEBEPIATEXTENDEBIRGIT/
+
+Aus den im Hinweis angegebenen Transformationen ließ sich das Codewort
+\verb/BACH/ für die Playfair-Chiffre ableiten: Die Buchstaben \verb/B/,
+\verb/E/ und \verb/L/ müssen wegen der Transformation des zweiten
+Buchstabenpaars \verb/EB/$\leftrightarrow$\verb/LE/  entweder im Codewort oder
+in der gleichen Spalte der Transformationsmatrix sein. Mit ähnlichen
+Überlegungen kann man die Position der Transformation
+\verb/EP/$\leftrightarrow$\verb/KL/ in der Transformationsmatrix bestimmen und
+daraufhin diese sukzessive mit den restlichen Buchstaben des Alphabets gefüllt
+werden.
+
+Entschlüsselter Text:
+\begin{verbatim}
+LI EB EP IA IS TD IR AU FG EF AL LE ND AS SA MS ON NT AG IN EI NE RW OC HE SC
+HO ND ER ER ST EA DV EN TI ST IC HW UE RD EG ER NE MA LW IE DE RD AS WE IH NA
+CH TS OR AT OR IU MV ON BA CH HO ER EN UE BR IG EN SK ON NT EI CH DE IN EL ET
+ZT EN AC HR IC HT DI EV IG EN ER EV ER SC HL UE SX SE LT WA RE RF OL GR EI CH
+EN TS CH LU ES SE LN IC HB IN GE SP AN NT OB DU ME IN EN PL AY FA IR CH IF FR
+IE RT EN TE XT AU CH EN TS CH LU ES SE LN KA NX NS TV IE LE GR UE SX SE SE ND
+ET DI RD EI NE FR EU ND IN BI RG IT 
+\end{verbatim}
+
+\section*{Aufgabe 22}
+$d$ wurde mittels $q$ und $p$ aus Aufgabe 23 bestimmt. Für $k$ wurde $2$
+gewählt.
+\lstset{language=Mathematica}
+\begin{lstlisting}
+NN = 1991436079968060680956241683331340467648959931\
+     9473433392606602383925001178815573;
+
+b = 83424793841850446745114385885294325590533534318\
+    60865256864804664771058882639227;
+
+d = (1 + 2 (q - 1) (p - 1))/3
+
+  1327624053312040453970827788887560311765250825267\ 
+  5893031645722289910289566447147
+
+a = PowerMod[b, d, NN]
+
+  2215182005091205000701211919180504212609051820051\
+  8000709202005180201190514
+
+""<>(Map[FromCharacterCode[FromDigits[#, 10] + 64] &,
+  Partition[IntegerDigits[a, 10], 2]] /. "@" -> " ")
+
+  VORTEILE GAUSSREDUZIERTER GITTERBASEN
+\end{lstlisting}
+
+\section*{Aufgabe 23}
+\begin{lstlisting}
+NN = 1991436079968060680956241683331340467648959931\
+     9473433392606602383925001178815573;
+x1 = 3361927314620875058902199570867131105878;
+y1 = 2934587795736682091568656460413386795367;
+x2 = 3954174152664471768532159223441948595722;
+y2 = 2068542378120596668138255705971813910233;
+
+q = GCD[NN, x1 x2 + y1 y2]
+
+  2345123709875208947523894129342145034693
+
+p = GCD[NN, x1 y2 + y1 x2]
+
+  8491816749718636190495054930224684110161
+\end{lstlisting}
+
+\section*{Aufgabe 24}
+\begin{enumerate}[(1)]
+	\item Es folgt sofort, dass $x^2 \equiv p\bmod 3$ ist; da Quadratzahlen
+	modulo $3$ lediglich äquivalent $1$ oder $0$ sein können, jedoch $p
+	\not\equiv 0\bmod 3$ für alle Primzahlen, gilt die Behauptung.
+	
+	\item $\Z_p^*$ ist zyklische Gruppe, also gibt es ein Generatorelement
+	$g \in \Z_p^*$, das die Gruppe erzeugt:
+	\[ \Z_p^* = \left\{g^k\ \vert\ k \in \{1,2,\dots,p-1\}\right\} \]
+	Insbesondere gilt dann für alle $k \in \{1,\dots,p-2\}$, dass $g^k
+	\not\equiv 1\bmod p$.
+
+	Da $p \equiv 1\bmod 3$ gilt $3 \vert p-1$. Somit ist die Behauptung
+	wohldefiniert.
+
+	\item Da $z^3 \equiv g^{p-1} \equiv 1\bmod p$, da $p-1$ die Ordnung von
+	$\Z_p^*$ ist und weiterhin $1-z \not\equiv 0\bmod p$ gilt:
+	\[ (1-z)(z^2+z+1) \equiv 1-z^3 \equiv 0\mod 3\]
+	Daraus folgt die Behauptung, da $\Z_p$ ein Körper ist (und damit keine
+	Nullteiler existieren).
+\end{enumerate}
