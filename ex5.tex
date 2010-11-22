@@ -134,7 +134,13 @@ GaussReduktion[a1, bx]
 	$M \in GL_m(\Z)$ gibt mit $M_{\Lambda_1} = M \cdot M_{\Lambda_2}$, wobei
 	$M_{\Lambda_k}$ die Matrix bestehend aus der jeweiligen Gitterbasis
 	darstellt.
-	\item 
+	\item Mit $x = (a_{2 i - 1}, a_{2 i})$ und $y = (a_{2 i}, a_{2 i - 1})$
+	folgt, dass $\|x\| = \|y\|$; zudem ist 
+	\[ |\mu| = \left| \frac{x \cdot y}{y \cdot y} \right| 
+	= \left| \frac{a_{2 i - 1}\cdot a_{2 i} -  a_{2 i}\cdot a_{2 i - 1} }{\|y\|} \right|
+	= 0 \leq \frac{1}{2} \] 
+	und damit ist $\{x,y\}$ nach Definition eine
+	gauß-reduzierte Gitterbasis.
 	\item Zum Decodieren einer solchen Verschlüsselung muss man lediglich
 	je vier Zahlen zusammenfassen und als zwei Gittervektoren auffassen;
 	auf diese wendet man die Gauß-Reduktion an. Man wählt von den
