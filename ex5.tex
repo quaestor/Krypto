@@ -140,10 +140,11 @@ GaussReduktion[a1, bx]
 	auf diese wendet man die Gauß-Reduktion an. Man wählt von den
 	resultierenden zwei Vektoren den aus, dessen beide Komponenten das
 	gleiche Vorzeichen haben, da die resultierenden Vektoren nur bis auf
-	das Vorzeichen eindeutig sind; da die Reihenfolge $(a_{2i-1}, a_{2i})$
-	gewünscht ist, dies ist die erste Zeile der Matrix $A_i$ (mit gleichen
-	Vorzeichen, während die zweite Zeile verschiedene Vorzeichen hat).
-	Ein in Mathematica implementierter Algorithmus sieht beispielsweise so aus:
+	das Vorzeichen eindeutig sind; da die Zahlen in der Reihenfolge
+	$(a_{2i-1}, a_{2i})$ gewünscht sind, die so in der  ersten Zeile der
+	Matrix $A_i$ stehen (mit gleichen Vorzeichen, während in der zweiten Zeile
+	verschiedene Vorzeichen sind).  Ein in Mathematica implementierter
+	Algorithmus sieht beispielsweise so aus:
 \begin{lstlisting}
 (* Hilfsfunktion um je 4 Zahlen zu 2 Vektor zusammenzufassen *)
 f[x_] := Module[{}, Partition[x, 2]];
@@ -166,8 +167,8 @@ plain = FromCharacterCode[64 +
             ]
         ]
 \end{lstlisting}
-	In der Variablen \verb/cipher/ steht die Verschlüsselte Nachricht.
-	\item Mit obigen Algorithmus erhält man:
+	In der Variablen \verb/cipher/ steht die verschlüsselte Nachricht.
+	\item Mit obigem Algorithmus erhält man:
 
 	\verb/ICHSAHEINGROSSESHERBSTBLATTDASDERWINDDIESTRASSELANGTRIEBUNDICHDACHTES/
 
