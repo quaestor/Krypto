@@ -14,3 +14,114 @@ ER NG EM EI NS AM HI NG EH EN UE BR IG EN SD EN KE IC HD AS SU NS ER IE TZ IG
 ES PL AY FA IR PA SX SW OR TA DV EN TS ZE IT EI NI GE RM AS SE NS IC HE RI ST
 VI EL EG RU ES SE SE ND ET DI RD EI NE FR EU ND IN PI AX 
 \end{verbatim}
+
+\section*{Aufgabe 27}
+Das folgende (zugegebenermaßen unübersichtliche und unverständliche)
+Haskell-Programm führt den \textsc{Kasiski}-Test mit dem gegebenen Text durch:
+\lstset{language=Haskell}
+\begin{lstlisting}
+import Data.List
+import Data.Function
+
+-- Der verschluesselte Text
+chiff = "YEX...BAC"
+
+-- Haeufigkeitsanalyse
+countdooku xs = sortBy (compare `on` snd) $
+		map (\x -> (head x, length x)) $ group $ sort xs
+
+-- Sortiert Textbloecke der Laenge 'n' nach Auftrittshaeufigkeit
+samefags n xs = countdooku $ samefags' n xs
+samefags' n (x:xs) = take n (x:xs) : samefags' n xs
+samefags' n _ = []
+
+-- Liefert die Positionen (i und j) der haeufigsten Textbloecke
+substr xs ys = substr' xs ys 0
+substr' xs (y:ys) n | take m (y:ys) == xs = n : substr' xs ys (n+1)
+		    | otherwise = substr' xs ys (n+1)
+			where m = length xs
+substr' _ _ _ = []
+
+-- Berechnet den ggT der Differenzen (j - i)
+keylength = foldl1 gcd $
+	map (\x -> (x!!1) - (x!!0)) $
+	map (flip substr chiff)  $
+	map fst $
+	filter (\x -> snd x == 2) $
+	samefags 5 chiff
+
+-- Sortiert die Buchstaben des verschluesselten Textes nach Position
+-- modulo 7 (die Schluessellaenge, die mit vorhergehenden Funktionen 
+-- ermittelt wurde)
+seventhson xs = sonofaseventhson xs [[],[],[],[],[],[],[]]
+sonofaseventhson (son1:son2:son3:son4:son5:son6:son7:xs)
+		 (bro1:bro2:bro3:bro4:bro5:bro6:bro7:[]) = 
+			sonofaseventhson xs
+				[son1:bro1,son2:bro2,son3:bro3,
+				 son4:bro4,son5:bro5,son6:bro6,
+				 son7:bro7]
+sonofaseventhson [] ys = ys
+sonofaseventhson _ ys = ys
+
+-- gibt das vermutete Codewort aus
+main = map (\x -> chr (x+65)) $
+	map (\x -> (ord (fst x) - 65) - 4) $
+	map last $ map countdooku (seventhson chiff)
+\end{lstlisting}
+Die main-Funktion liefert das Codewort \verb/UMBERTO/ (der Vorname des
+berühmten Autors \verb/ECO/). Entschlüsselung des Textes folgt analog zu
+Aufgabe 16:
+\begin{verbatim}
+ESWAREINKLARERSPAETHERBSTLICHERMORGENGEGENENDENOVEMBERINDERNACHTHATTEESEINWENIGG
+ESCHNEITUNDSOBEDECKTEEINFRISCHERWEISSERSCHLEIERKAUMMEHRALSZWEIFINGERHOCHDENBODEN
+NOCHBEIDUNKELHEITGLEICHNACHLAUDESHATTENWIRTALABWAERTSINEINEMDORFDIEMESSEGEHOERTD
+ANNWARENWIRAUFGEBROCHENUMBEIMERSTENTAGESLICHTINDIEBERGEZUGEHENALSWIRDENSTEILENPF
+ADERKLOMMENDERSICHDIEHAENGEHINAUFWANDSAHICHZUMERSTENMALDIEABTEINICHTIHREMAUERNUE
+BERRASCHTENMICHSIEGLEICHENDENANDERENDIEICHALLERORTENINDERCHRISTLICHENWELTGESEHEN
+SONDERNDIEMASSIGKEITDESSENWASSICHSPAETERALSDASAEDIFICIUMHERAUSSTELLENSOLLTEESWAR
+EINACHTECKIGERBAUDERAUSDERFERNEZUNAECHSTWIEEINVIERECKAUSSAHDIEHOECHSTVOLLENDETEF
+ORMAUSDRUCKDERBESTAENDIGKEITUNDUNEINNEHMBARKEITDERSTADTGOTTESSEINESUEDFLANKERAGT
+EHOCHUEBERDASPLATEAUDERABTEIWAEHRENDDIENORDMAUERNUNMITTELBARAUSDEMBERGHANGZUWACH
+SENSCHIENENGLEICHSCHRAEGIMFELSVERWURZELTENBAEUMENVONUNTENGESEHENSCHIENESGERADEZU
+ALSVERLAENGERTESICHDERFELSENZUMHIMMELUMINEINERGEWISSENHOEHEOHNESICHTBARENWANDELI
+NFAERBUNGUNDSTOFFZUMMAECHTIGENTURMZUWERDENEINWERKVONRIESENHANDGESCHAFFENINGROESS
+TERVERTRAUTHEITMITHIMMELUNDERDEDREIFENSTERREIHENSKANDIERTENDENTRIPELRHYTHMUSDESA
+UFBAUSDERGESTALTDASSWASPHYSISCHALSQUADRATAUFDERERDESTANDSICHSPIRITUELLALSDREIECK
+ZUMHIMMELERHOB
+\end{verbatim}
+
+\section*{Aufgabe 29}
+\begin{enumerate}[(1)]
+	\item
+	Folgendes Haskell-Programm (diesmal übersichtlich und verständlich) berechnet
+	die Kettenbruchzerlegung einer rationalen Zahl $\frac{p}{q}$ nach der Methode
+	aus dem Skript:
+	\begin{lstlisting}
+cont'dfrac :: Integral a => a -> a -> [a]
+cont'dfrac p 0 = []
+cont'dfrac p q = r : cont'dfrac q (p - r * q)
+        where   r = p `div` q 
+
+a = 6994
+b = 1315
+c = 2804
+d = 477
+numbers = [(a,b),(-a,b),(b,a),(-b,a),(c,d),(-c,d),(d,c),(-d,c)]
+
+main = map (uncurry cont'dfrac) numbers
+
+  [[5,3,7,4,2,6],[-6,1,2,7,4,2,6],[0,5,3,7,4,2,6],[-1,1,4,3,7,4,2,6],
+   [5,1,7,4,2,6],[-6,8,4,2,6],[0,5,1,7,4,2,6],[-1,1,4,1,7,4,2,6]]
+	\end{lstlisting}
+	\item
+	\item Ist in der Kettenbruchzerlegung $\alpha = [a_0, a_1, \dots]$ die
+		Zahl $a_0 = 0$, so ist $\frac{1}{\alpha} = [a_1, a_2, \dots]$.
+		Ist $a_0 \not= 0$, so fügt man vorne eine $0$ ein. Begründung:
+		\[ \frac{1}{\alpha} = 
+			\begin{cases}
+				\left(\frac{1}{a_1+\frac{1}{a_2+\dots}}\right)^{-1} =
+				a_1 + \frac{1}{a_2+\frac{1}{a_3+\dots}} &a_0 = 0 \\
+				0 + \frac{1}{a_0+\frac{1}{a_1+\dots}} &a_0 \not= 0
+			\end{cases}
+				\]
+\end{enumerate}
