@@ -90,6 +90,42 @@ UFBAUSDERGESTALTDASSWASPHYSISCHALSQUADRATAUFDERERDESTANDSICHSPIRITUELLALSDREIECK
 ZUMHIMMELERHOB
 \end{verbatim}
 
+\section*{Aufgabe 28}
+\lstset{language=Mathematica}
+\begin{lstlisting}
+(* (1) *)
+{p,q}=Map[First,FactorInteger[n]]
+
+  {50821,196769}
+
+phin = (p-1)(q-1)
+
+  9999749760
+
+(* (2) *)
+e=First@First@Select[Table[{ee,GCD[ee,phin]},{ee,2,100}],#[[2]]==1&]
+
+  17
+
+(* (3) *)
+d=ExtendedGCD[e,phin][[2,1]]
+
+  4705764593
+
+(* (4) *)
+PowerMod[IntegerDigits[FromDigits[(ToCharacterCode["ERSTER ADVENT"]/. 32->64)-64,100],10^5],e,n]
+
+  {6098921088,9250330136,1844742,6215066524,14485995}
+
+(* (5) *)
+FromCharacterCode[
+  (IntegerDigits[
+    FromDigits[PowerMod[{6057562331,3316356015,5652398482,6086215719},d,n],10^10]
+   ,100]+64)/. 64->32]
+
+  BALD IST WEIHNACHTEN
+\end{lstlisting}
+
 \section*{Aufgabe 29}
 \begin{enumerate}[(1)]
 	\item
@@ -113,7 +149,7 @@ main = map (uncurry cont'dfrac) numbers
   [[5,3,7,4,2,6],[-6,1,2,7,4,2,6],[0,5,3,7,4,2,6],[-1,1,4,3,7,4,2,6],
    [5,1,7,4,2,6],[-6,8,4,2,6],[0,5,1,7,4,2,6],[-1,1,4,1,7,4,2,6]]
 	\end{lstlisting}
-	\item
+	\item 
 	\item Ist in der Kettenbruchzerlegung $\alpha = [a_0, a_1, \dots]$ die
 		Zahl $a_0 = 0$, so ist $\frac{1}{\alpha} = [a_1, a_2, \dots]$.
 		Ist $a_0 \not= 0$, so fügt man vorne eine $0$ ein. Begründung:
@@ -124,4 +160,54 @@ main = map (uncurry cont'dfrac) numbers
 				0 + \frac{1}{a_0+\frac{1}{a_1+\dots}} &a_0 \not= 0
 			\end{cases}
 				\]
+\end{enumerate}
+
+\section*{Aufgabe 30}
+\begin{enumerate}[(1)]
+\item Lösung mit Mathematica:
+\begin{lstlisting}
+
+n = 4205699657;
+p=56311;
+q=74687;
+e={7,841113733,3911015213,3973765663};
+phin=(p-1)*(q-1);
+
+(* (1) *)
+d=Map[Mod[#[[2,1]],phin]&,ExtendedGCD[e,phin]]
+  {600795523,2523341197,257,127}
+
+k=(e*d-1)/phin
+ {1,504668240,239,120}
+\end{lstlisting}
+\item
+Diese Teilaufgabe lösen wir mithilfe des Haskell-Programms aus Aufgabe 29,
+wobei die Variablen $phin, e, d$ und $n$ mit den Werten oder Listen aus (1)
+initialisiert wurden.
+\lstset{language=Haskell}
+\begin{lstlisting}
+map (uncurry cont'dfrac) $ zip k d
+
+  [[0,600795523],[0,4,1,168222745,1,2],
+   [0,1,13,3,1,1,2],[0,1,17,7]]
+
+map (uncurry cont'dfrac) $ zip e (repeat phin)
+
+  [[0,600795522,1,6],[0,4,1,168222745,1,1,2],
+   [0,1,13,3,1,1,2,16364080],[0,1,17,6,1,33114713]]
+
+map (uncurry cont'dfrac) $ zip e (repeat m)
+	where m = n - floor(sqrt(4 * fromInteger n))
+
+  [[0,600795707,1,6],[0,5,652026,6,1,2,6,10],
+   [0,1,13,3,1,1,1,1,52,3,1,4,1,8,2,18,39],
+   [0,1,17,7,212,1,20,3,10,235]]
+
+map (uncurry cont'dfrac) $ zip e (repeat n)
+
+  [[0,600814236,1,2,2],[0,5,6421,9,3,2,4,1,7,1,4,2,1,2],
+   [0,1,13,3,1,2,9,2,1,26,48,1,3,1,2,6,1,6],
+   [0,1,17,7,1,1,27,1,1,90,3,2,1,9,10,3]]
+
+\end{lstlisting}
 \end{enumerate}
