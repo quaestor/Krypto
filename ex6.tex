@@ -149,7 +149,49 @@ main = map (uncurry cont'dfrac) numbers
   [[5,3,7,4,2,6],[-6,1,2,7,4,2,6],[0,5,3,7,4,2,6],[-1,1,4,3,7,4,2,6],
    [5,1,7,4,2,6],[-6,8,4,2,6],[0,5,1,7,4,2,6],[-1,1,4,1,7,4,2,6]]
 	\end{lstlisting}
-	\item 
+	\item Sei $\alpha = [a_0, a_1, a_2, a_3, \ldots]$, mit $a_0 = \alpha$
+	und $a_{i+1} = \left\lfloor \frac{1}{\alpha_i - a_i} \right\rfloor $.
+	Dann gilt für $\alpha' = -\alpha = [a_0', a_1', a_2', \ldots]$:
+	\begin{enumerate}[(i)]
+		\item $a_1 > 1$:
+		\[ a_1 > 1  \Leftrightarrow \frac{1}{\alpha - a_0} = \alpha_1 > 2 
+		\Leftrightarrow 0 < \alpha - a_0 < \frac{1}{2} 
+		\Leftrightarrow 1 > -\alpha + a_0 + 1 > \frac{1}{2} \] 
+		\[ \Leftrightarrow 1 < \frac{1}{-\alpha + a_0 + 1} < 2 \]
+
+		Damit folgt:
+		\[ \alpha_0' = -\alpha \]
+		\[ a_0' = \lfloor -\alpha \rfloor = -a_0 - 1   \]
+		\[ a_1' = \left\lfloor \frac{1}{-\alpha + a_0 + 1} \right\rfloor = \lfloor \alpha_1' \rfloor = 1 \]
+		\[ a_2' = \left\lfloor \frac{1}{\alpha_1' - a_1' } \right\rfloor 
+			= \left\lfloor \frac{1}{\frac{1}{-\alpha + a_0 + 1} - 1} \right\rfloor
+			= \left\lfloor \frac{-\alpha + a_0 + 1}{\alpha - a_0} \right\rfloor 
+			= \left\lfloor -1 + \frac{1}{\alpha - a_0 } \right\rfloor
+			= \lfloor \alpha_1 - 1 \rfloor = a_1 - 1 \]
+		\[ a_3' = \left\lfloor \frac{1}{\alpha_2' - a_2' } \right\rfloor
+			= \left\lfloor \frac{1}{\alpha_1 - 1 - a_1 + 1} \right\rfloor
+			= \left\lfloor \frac{1}{\alpha_1 - a_1} \right\rfloor
+			= \lfloor \alpha_2 \rfloor 
+			= a_2 \]
+		Somit ist $-\alpha = [-a_0 - 1, 1, a_1 - 1, a_2, \ldots ]$.
+		\item $a_1 = 1 $:
+		\[ a_0' = a_0' = \lfloor -\alpha \rfloor = -a_0 - 1   \]
+		\[ a_1' = \left\lfloor \frac{1}{-\alpha + a_0 + 1} \right\rfloor 
+			= \left\lfloor \frac{1}{-\alpha + 2} \right\rfloor
+			= \left\lfloor 1 + (-1) + \frac{1}{-\alpha + 2} \right\rfloor
+			= \left\lfloor 1 +  \frac{\alpha - 1}{-\alpha + 2} \alpha\right\rfloor \]
+		\[	= \left\lfloor 1 + \frac{1}{\frac{1-\alpha + 1}{\alpha - 1}} \right\rfloor
+			= \left\lfloor 1 + \frac{1}{\frac{1}{\alpha - 1} - 1} \right\rfloor
+			= \left\lfloor 1 + \frac{1}{\alpha_1 - a_1} \right\rfloor
+			= \left\lfloor 1 + \alpha_2\right\rfloor
+			= 1 + a_2 \]
+		\[ a_2' = \left\lfloor \frac{1}{\alpha_2 + 1 - a_2 - 1} \right\rfloor
+			= \left\lfloor \frac{1}{\alpha_2 - a_2} \right\rfloor
+			= \left\lfloor \alpha_3 \right\rfloor
+			= a_3 \]
+		
+		Somit ist $-\alpha = [-a_0 - 1, a_2 + 1, a_3 \ldots ]$.
+	\end{enumerate}
 	\item Ist in der Kettenbruchzerlegung $\alpha = [a_0, a_1, \dots]$ die
 		Zahl $a_0 = 0$, so ist $\frac{1}{\alpha} = [a_1, a_2, \dots]$.
 		Ist $a_0 \not= 0$, so fügt man vorne eine $0$ ein. Begründung:
