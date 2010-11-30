@@ -252,4 +252,19 @@ map (uncurry cont'dfrac) $ zip e (repeat n)
    [0,1,17,7,1,1,27,1,1,90,3,2,1,9,10,3]]
 
 \end{lstlisting}
+\item
+Aus den vorhergehenden Berechnungen lässt sich folgende Tabelle ablesen:
+\begin{center}
+\begin{tabular}[]{r|c|c|c}
+	$\frac{k}{d}$ enthalten in&$\frac{e}{(p-1)(q-1)}$&$\frac{e}{N-\lfloor\sqrt{4N}\rfloor}$&$\frac{e}{N}$\\
+	\hline
+	$e=7$&Ja&Nein&Nein\\
+	\hline
+	$e=841113733$&Nein&Nein&Nein\\
+	\hline
+	$e=3911015213$&Ja&Ja&Nein\\
+	\hline
+	$e=3973765663$&Ja&Nein&Ja
+\end{tabular}
+\end{center}
 \end{enumerate}
