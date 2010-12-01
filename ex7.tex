@@ -1,0 +1,40 @@
+\chead{Blatt 7}
+\section*{Aufgabe 31}
+Da das Ende des Textes sehr viele Platzhalter-Zeichen enthält lässt sich die
+Schablone direkt aus dem letzten Block von $36$ Zeichen ablesen. Dechiffriert
+wird mit folgendem Haskell-Programm:
+\lstset{language=Haskell}
+\begin{lstlisting}
+import Data.List
+
+text = "osDtre...is/s         e"
+
+stencil = [(1,3),(2,1),(2,3),(2,6),(3,4),(4,5),(4,6),(5,2),(6,6)]
+
+fullturn xs = concat
+		[ sort $ xs
+		, sort $ map (\(i,j) -> (j,7-i)) xs
+		, sort $ map (\(i,j) -> (7-i,7-j)) xs
+		, sort $ map (\(i,j) -> (7-j,i)) xs
+		]
+
+decipher :: String -> [(Int, Int)] -> String
+decipher xs st	| length xs >= 36 = [(take 36 xs) !! (flat s) | s <- (fullturn st)] 
+					++ decipher (drop 36 xs) st
+		| otherwise = []
+	where flat (i,j) = (i-1) * 6 + (j-1)
+
+main = putStrLn $ decipher text stencil
+\end{lstlisting}
+Entschlüsselter Text:
+\begin{verbatim}
+Die Konstruktion von Drehrastern ist einfach: Man beschreibt einen Quadranten
+des Feldes (mit gerader Zeilen- und Spaltenanzahl) mit Markierungen,
+ueberlagert alle durch Rotation sich ergebenden Markierungen und waehlt dann
+von jeder Markierung genau eine aus. Wuerfel und Drehraster wurden gern auf
+militaerisch-taktischem Niveau verwendet. Im 1. Weltkrieg wurden vom deutschen
+Heer ab Anfang 1917 Drehraster verwendet, sie hatten Bezeichnungen wie ANNA (5
+x 5), BERTA (6 x 6), CLARA (7 x 7), DORA (8 x 8), EMIL (9 x 9) und FRANZ (10 x
+10). Nach vier Monaten gab man das wieder auf. (F. L. Bauer, Entzifferte
+Geheimnisse)
+\end{verbatim}
