@@ -132,6 +132,7 @@ FromCharacterCode[
 	Folgendes Haskell-Programm (diesmal übersichtlich und verständlich) berechnet
 	die Kettenbruchzerlegung einer rationalen Zahl $\frac{p}{q}$ nach der Methode
 	aus dem Skript:
+	\lstset{language=Haskell}
 	\begin{lstlisting}
 cont'dfrac :: Integral a => a -> a -> [a]
 cont'dfrac p 0 = []
@@ -207,6 +208,7 @@ main = map (uncurry cont'dfrac) numbers
 \section*{Aufgabe 30}
 \begin{enumerate}[(1)]
 \item Lösung mit Mathematica:
+\lstset{language=Mathematica}
 \begin{lstlisting}
 
 n = 4205699657;
@@ -264,7 +266,7 @@ Aus den vorhergehenden Berechnungen lässt sich folgende Tabelle ablesen:
 	\hline
 	$e=3911015213$&Ja&Ja&Nein\\
 	\hline
-	$e=3973765663$&Ja&Nein&Ja
+	$e=3973765663$&Ja&Ja&Ja
 \end{tabular}
 \end{center}
 \end{enumerate}
