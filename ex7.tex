@@ -19,9 +19,11 @@ fullturn xs = concat
 		]
 
 decipher :: String -> [(Int, Int)] -> String
-decipher xs st	| length xs >= 36 = [(take 36 xs) !! (flat s) | s <- (fullturn st)] 
-					++ decipher (drop 36 xs) st
-		| otherwise = []
+decipher xs st
+	| length xs >= 36 =
+		[(take 36 xs) !! (flat s) | s <- (fullturn st)]
+			++ decipher (drop 36 xs) st
+	| otherwise = []
 	where flat (i,j) = (i-1) * 6 + (j-1)
 
 main = putStrLn $ decipher text stencil
@@ -38,3 +40,16 @@ x 5), BERTA (6 x 6), CLARA (7 x 7), DORA (8 x 8), EMIL (9 x 9) und FRANZ (10 x
 10). Nach vier Monaten gab man das wieder auf. (F. L. Bauer, Entzifferte
 Geheimnisse)
 \end{verbatim}
+
+\section*{Aufgabe 32}
+\begin{enumerate}
+	\item
+	\lstset{language=Mathematica}
+	\begin{lstlisting}
+FromContinuedFraction/@
+	(ToCharacterCode[{"ADVENT","SCHNEE","WEIHNACHTEN"}]-65)
+
+  {21479/65448,62954/3409,574578367/25832394}
+	\end{lstlisting}
+	\item
+\end{enumerate}

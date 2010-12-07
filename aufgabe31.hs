@@ -20,9 +20,11 @@ fullturn xs = concat
 		]
 
 decipher :: String -> [(Int, Int)] -> String
-decipher xs st	| length xs >= 36 = [(take 36 xs) !! (flat s) | s <- (fullturn st)] 
-					++ decipher (drop 36 xs) st
-		| otherwise = []
+decipher xs st
+	| length xs >= 36 =
+		[(take 36 xs) !! (flat s) | s <- (fullturn st)]
+			++ decipher (drop 36 xs) st
+	| otherwise = []
 	where flat (i,j) = (i-1) * 6 + (j-1)
 
 main = putStrLn $ decipher text stencil
