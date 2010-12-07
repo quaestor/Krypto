@@ -56,6 +56,33 @@ FromContinuedFraction/@
 
 
 \section*{Aufgabe 33}
+\begin{enumerate}[(1)]
+	\item Die Kettenbruchentwicklung von $\alpha$ ist:
+	\[ \alpha = \frac{20101201}{10210102} = [ 1, 1, 31, 159, 40, 1, 15, 3 ] \]
+	Die Näherungsbrüche sind somit:
+	\begin{eqnarray*}
+	1 &=& [1] \\
+	2 &=& [1, 1] \\
+	\frac{63}{32} &=& [1,1,31] \\
+	\frac{10019 }{5089} &=& [1,1,31,159] \\
+	\frac{400823}{203592} &=& [1,1,31,159,40] \\
+	\frac{410842}{208681} &=& [1,1,31,159,40,1] \\
+	\frac{6563453}{3333807} &=& [1,1,31,159,40,1,15] \\
+	\end{eqnarray*}
+		
+	\item Für eine Zahl $\frac{p}{q} \in \Z$ mit $\left| \alpha -
+	\frac{p}{q} \right| < \frac{1}{2 q^2}$ und $\text{ggT}(p,q) = 1$ gilt, dass
+	$\frac{p}{q}$ in der Kettenbruchentwicklung von $\alpha$ als
+	Näherungsbruch vorkommt.
+	Somit sind durch obige Auflistung aller Näherungsbrüche alle möglichen Paare $(m,n) \in \mathbb{N} \times \mathbb{N}$ bestimmt, Überprüfung ergibt folgende Tupel, die die gewünschte Eigenschaft erfüllen:
+	\[ (m,n) \in \{ (2,1), (63,32), (10019, 5089), (410842 ,208681 ), \]
+	\[ (6563453 ,3333807 ), (20101201 ,10210102 )\} \]
+
+	\item Die Ungleichungen 
+	\[ \frac{1}{2 n^2} \leq \left| \alpha - \frac{m}{n} \right| < \frac{1}{n^2} \]
+	erfüllen die übrigen Näherungsbrüche, wie man leicht nachprüfen kann:
+	\[ (m,n) \in \{(1,1), (400823, 203592)\} \]
+\end{enumerate}
 
 
 \section*{Aufgabe 34}
