@@ -60,9 +60,10 @@ FromContinuedFraction/@
 	entschlüsselte Text lautet damit:
 
 \begin{verbatim}
-ESTREIBTDERWINDIMWINTERWALDEDIEFLOCKENHERDEWIEEINHIRTUNDMANCHETANNEAHNTWIEBALDES
-IEFROMMUNDLICHTERHEILIGWIRDUNDLAUSCHTHINAUSDENWEISSENWEGENSTRECKTSIEDIEZWEIGEHIN
-BEREITUNDWEHRTDEMWINDUNDWAECHSTENTGEGENDEREINENNACHTDERHERRLICHKEIT
+ESTREIBTDERWINDIMWINTERWALDEDIEFLOCKENHERDEWIEEINHIRTUNDMANCHETANNEAHNTWIE
+BALDESIEFROMMUNDLICHTERHEILIGWIRDUNDLAUSCHTHINAUSDENWEISSENWEGENSTRECKTSIE
+DIEZWEIGEHINBEREITUNDWEHRTDEMWINDUNDWAECHSTENTGEGENDEREINENNACHTDERHERRLIC
+HKEIT
 \end{verbatim}
 \end{enumerate}
 
@@ -112,3 +113,40 @@ Für $\sqrt{n^2 + 1}$ gilt:
 \[ \alpha_2 = \frac{1}{\sqrt{n^2 + 1} + n - 2n} = \alpha_1, \quad a_2 = a_1 \]
 Somit gilt mit obiger Darstellung:
 \[ \sqrt{n^2 + 1} = [n, [2n]] \]
+
+\section*{Aufgabe 35}
+Die Variablen $n$, $e$ und $d$ wurden mit den Zahlen aus der Angabe belegt und
+werden der Übersichtlichkeit halber nicht mehr aufgeführt.
+\lstset{language=Mathematica}
+\begin{lstlisting}
+{{a1,a2},{b1,b2}} = LatticeReduce[{{e,Round[Sqrt[n]]},{n,0}}];
+
+d = (a2/Round[Sqrt[n]]);
+
+k = (-a1+e*d)/n;
+Element[k, Integers]
+
+  True
+
+s = n+1-(e*d-1)/k;
+Element[s, Integers]
+
+  True
+
+Element[(Delta = Sqrt[s^2-4*n]), Integers]
+
+  True
+
+{p,q} = {(s-Delta)/2,(s+Delta)/2};
+Element[{p,q}, Integers] && p>1 && q>1 && n == p*q
+
+  True
+
+FromCharacterCode[(IntegerDigits[PowerMod[b,d,n],100]+64)/. 64->32]
+
+  PROBLEMA NUMEROS PRIMOS A COMPOSITIS DIGNOSCENDI HOSQUE IN FACTORES
+  SUOS PRIMOS RESOLVENDI AD GRAVISSIMA AC UTILISSIMA TOTIUS
+  ARITHMETICAE PERTINERE ET GEOMETRARUM TUM VETERUM TUM RECENTIORUM
+  INDUSTRIAM AC SAGACITATEM OCCUPAVISSE TAM NOTUM EST UT DE HAC RE
+  COPIOSE LOQUI SUPERFLUUM FORET
+\end{lstlisting}
