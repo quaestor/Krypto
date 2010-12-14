@@ -1,0 +1,81 @@
+\chead{Blatt 7}
+\section*{Aufgabe 36}
+Durch eine kontrollierte Bruteforce-Attacke auf das Ende des Textes konnten wir
+die Maske der Schablone identifizieren und mithilfe des Programms aus Aufgabe
+31 entschlüsseln:
+\begin{verbatim}
+"DER DEZEMBER DAS JAHR WAR ALT HAT DUENNE HAAR IST GAR NICHT SEHR GESUND KENNT
+SEINEN LETZTEN TAG DAS JAHR KENNT GAR DIE LETZTE STUND IST VIEL GESCHEHN WARD
+VIEL VERSAEUMT RUHT BEIDES UNTERM SCHNEE WEISS LIEGT DIE WELT WIE HINGETRAEUMT
+UND WEHMUT TUT HALT WEH NOCH WAECHST DER MOND NOCH SCHMILZT ER HIN NICHTS
+BLEIBT UND NICHTS VERGEHT IST ALLES WAHN HAT ALLES SINN NUETZT NICHTS DASS MANS
+VERSTEHT UND WIEDER STAPFT DER NIKOLAUS DURCH JEDEN KINDERTRAUM UND WIEDER
+BLUEHT IN JEDEM HAUS DER GOLDENGRUENE BAUM WARST AUCH EIN KIND HAST SELBST
+GEFUEHLT WIE HOLD CHRISTBAEUME BLUEHN HAST NUN DEN WEIHNACHTSMANN GESPIELT UND
+GLAUBST NICHT MEHR AN IHN BALD TRIFFT DAS JAHR DER ZWOELFTE SCHLAG DANN DROEHNT
+DAS ERZ UND SPRICHT DAS JAHR KENNT SEINEN LETZTEN TAG UND DU KENNST DEINEN
+NICHT AUS DIE DREIZEHN MONATE VON ERICH KAESTNER       "
+\end{verbatim}
+
+\section*{Aufgabe 37}
+\begin{lstlisting}
+M = {{160734, 254024}, {936649, 1480280}};
+iM = Inverse[M];
+
+Decipher[b_, d_] := {x, y} /. ToRules[
+	Select[Flatten[Table[
+		Reduce[(b - {x, y}).iM == {i, j}
+			&& -d < x < d && -d < y < d,
+			{x, y},
+			Integers],
+		{i, 1, 26}, {j, 1, 26}]
+	], Head[#] == And &][[1]]
+];
+
+B = ...; (* Cyphertext *)
+
+S = Map[Decipher[#, 20] &, B];
+
+FromCharacterCode[Flatten[Map[#.iM &, (B - S)]] + 64]
+
+  ESISTEINSCHNEEGEFALLENUNDESISTDOCHNITZEITMANWIRFTMICHMITDENBALLENDER
+  WEGISTMIRVERSCHNEITZ
+\end{lstlisting}
+
+\section*{Aufgabe 38}
+\begin{lstlisting}
+(* liefert die naechstliegenden Vektoren zum Vektor v im Gitter M 
+   im Format {vektor, distanz} *)
+cvp[ M_, v_] := Module[{a, b, r, s, g, d, gd},
+  {a, b} = LatticeReduce[M];
+  {{r, s}} = {r, s} /. Solve[v == r*a + s*b, {r, s}];
+  r = Floor[r]; s = Floor[s];
+  g = Flatten[Table[(r + i)*a + (s + j)*b, {i, 0, 1}, {j, 0, 1}], 1];
+  d = Map[Norm[v - #]^2 &, g];
+  gd = Thread[List[g, d]];
+  Select[gd, #[[2]] == Min[d] &]
+  ]
+
+M = {{12419, -501}, {-64946, 2620}};
+
+vs = {{934099/2, -37675/2}, {451434/19, -534521/19}, {3454/51, 
+    5246/51}, {10081/83, 2540/83}};
+
+Map[cvp[M, #] &, vs]
+
+(* naechstliegende Vektoren zu...
+	v1 *)
+  ({{{467041, -18841}, 169/2}, {{467058, -18834}, 169/2}}
+     (* v2 *)
+   {{{23762, -28132}, 2105/361}}
+     (* v3 *)
+   {{{72, 98}, 109028/2601}}
+     (* v4 *)
+   {{{113, 27}, 582205/6889}, {{116, 38}, 582205/6889},
+   	{{130, 34}, 582205/6889}})
+\end{lstlisting}
+
+\section*{Aufgabe 39}
+
+\section*{Aufgabe 40}
+
