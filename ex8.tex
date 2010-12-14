@@ -78,4 +78,28 @@ Map[cvp[M, #] &, vs]
 \section*{Aufgabe 39}
 
 \section*{Aufgabe 40}
+\newcommand{\Zd}{\Z[\sqrt{-d}]}
+\begin{enumerate}[(1)]
+\item
+	$\Zd$ ist Unterring, da $\Zd$ nicht die leere Menge ist und für alle
+	$a, b \in \Zd$ gilt (Abgeschlossenheit):
 
+	\[ a + b = x_a + y_a \sqrt{-d} + x_b + y_b \sqrt{-d} = (x_a + x_b) +
+	(y_a + y_b) \sqrt{-d} \in \Zd \]
+	\[ a \cdot b = (x_a + y_a \sqrt{-d}) \cdot (x_b + y_b \sqrt{-d}) = (x_a
+	x_b - d y_a y_b) + (x_a y_b + x_b y_a) \sqrt{-d} \in \Zd \]
+
+\item
+	\[ \left| \frac{a}{b} - q \right| < 1 \Leftrightarrow \left|a -
+	bq\right| = |r| < |b| \Leftrightarrow |r|^2 = w(r) < w(b) = |b|^2 \]
+
+\item
+	
+\item[(4), (5)]
+	Für ein beliebiges $q = x + y \sqrt{-d}$ gilt
+	\[ \left|\frac{1+\sqrt{-d}}{2} - q \right|^2 = \frac{1}{4}+\frac{d}{4}
+	+ \underbrace{(x^2 - x) + d(y^2 - y)}_{\geq 0} \]
+	Die Ungleichung $\sqrt{\frac{1}{4}+\frac{d}{4} (x^2 - x) + d(y^2 - y)}
+	< 1$ ist offensichtlich nur für $d \in \{1,2\}$ erfüllt. Nach (3) gilt
+	also, dass $\Zd$ mit $d \geq 3$ nicht norm-euklidisch ist.
+\end{enumerate}
