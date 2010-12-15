@@ -1,4 +1,4 @@
-\chead{Blatt 7}
+\chead{Blatt 8}
 \section*{Aufgabe 36}
 Durch eine kontrollierte Bruteforce-Attacke auf das Ende des Textes konnten wir
 die Maske der Schablone identifizieren und mithilfe des Programms aus Aufgabe
@@ -76,6 +76,36 @@ Map[cvp[M, #] &, vs]
 \end{lstlisting}
 
 \section*{Aufgabe 39}
+\begin{lstlisting}
+t1 = ToCharacterCode["Kryptographie und Gitter."];
+t2 = ToCharacterCode["Gitter und Kryptographie."];
+
+Conversion[elem_] := Block[{},
+	If[elem == 32, Return[0]];
+	If[elem == 46, Return[53]];
+	If[64 < elem < 96, Return[elem-64]];
+	If[96 < elem, Return[elem-70]]
+	];
+
+a = FromDigits[Map[Conversion, t1], 54]
+
+  4472285973419119941786015904173246227895209
+
+b = FromDigits[Map[Conversion, t2], 54]
+
+  2896797551704571192014792263577413175460315
+
+n=First[Select[Divisors[a-b],
+	2^127 < # < 2^128 && 
+	Quotient[Mod[a, #], 10^36] == 144 &]
+	]
+
+  300264612486096578953921029273076625202
+
+f = Mod[a, n]
+
+  144835051197494846316094180042972136621
+\end{lstlisting}
 
 \section*{Aufgabe 40}
 \newcommand{\Zd}{\Z[\sqrt{-d}]}
@@ -94,12 +124,29 @@ Map[cvp[M, #] &, vs]
 	bq\right| = |r| < |b| \Leftrightarrow |r|^2 = w(r) < w(b) = |b|^2 \]
 
 \item
-	
+	Betrachtet man $\Zd$ als Gitter und wählt die folgenden Elemente
+	\begin{eqnarray*}
+	x &+& y \sqrt{-d}\\
+	(x+1) &+& y \sqrt{-d}\\
+	(x+1) &+& (y+1) \sqrt{-d}\\
+	x &+& (y+1) \sqrt{-d}
+	\end{eqnarray*}
+	die paarweise minimalen Abstand voneinander haben, so ist klar, dass
+	der Punkt $(x+\frac{1}{2}) + (y+\frac{1}{2})\sqrt{-d} \in \mathbb{C}$
+	maximalen Abstand vom Gitter hat:
+	\[ d = w\left(\frac{1+\sqrt{-d}}{2}\right) = \frac{1}{4}+\frac{d}{4} \]
+	Daraus folgt, dass der Abstand zwischen beliebigen Punkten $\frac{a}{b}
+	\in \mathbb{C}$ mit $a, b \in \Zd$ und dem nächstliegenden Gittervektor
+	$q$ höchstens $d$ beträgt:
+	\[ \left|\frac{a}{b} - q\right| \leq \left|\frac{1+\sqrt{-d}}{2} -
+	q\right| \]
+	Damit, mit der Existenz eines nächsten Gittervektors $q$ und mit (2)
+	folgt die Behauptung.
 \item[(4), (5)]
 	Für ein beliebiges $q = x + y \sqrt{-d}$ gilt
 	\[ \left|\frac{1+\sqrt{-d}}{2} - q \right|^2 = \frac{1}{4}+\frac{d}{4}
 	+ \underbrace{(x^2 - x) + d(y^2 - y)}_{\geq 0} \]
-	Die Ungleichung $\sqrt{\frac{1}{4}+\frac{d}{4} (x^2 - x) + d(y^2 - y)}
-	< 1$ ist offensichtlich nur für $d \in \{1,2\}$ erfüllt. Nach (3) gilt
-	also, dass $\Zd$ mit $d \geq 3$ nicht norm-euklidisch ist.
+	Die Ungleichung $\sqrt{\frac{1}{4}+\frac{d}{4} + (x^2 - x) + d(y^2 -
+	y)} < 1$ ist offensichtlich nur für $d \in \{1,2\}$ erfüllt. Nach (3)
+	gilt also, dass $\Zd$ mit $d \geq 3$ nicht norm-euklidisch ist.
 \end{enumerate}
